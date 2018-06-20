@@ -6,7 +6,7 @@ setlocal enabledelayedexpansion
 :: Isolate the command
 set COMMAND=%1
 if not defined COMMAND (
-    echo Root Resolve, Copyright 2018 Celtoys Ltd
+    echo Root Resolve
     echo Usage: rr ^<command^> [options]
     exit /b 1
 )
