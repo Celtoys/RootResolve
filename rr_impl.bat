@@ -50,7 +50,7 @@ for /f %%a in (%ROOT_FILE_PATH%) do (
             if defined USE_START (
                 start !COMMAND_PATH! %OPTIONS%
             ) else (
-                !COMMAND_PATH! %OPTIONS%
+                call !COMMAND_PATH! %OPTIONS%
             )
             exit /b %ERRORLEVEL%
         )
