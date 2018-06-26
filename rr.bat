@@ -1,1 +1,1 @@
-@rr_impl.bat %*
+@call rr_impl.bat %*
