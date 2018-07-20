@@ -34,8 +34,8 @@ for %%a in (%ROOT_FILE_PATH%) do set ROOT_FILE_DIR=%%~dpa
 :: List of executable extensions
 :: First entry empty to allow for explicit extension specification
 set EXTENSIONS[0]= 
-set EXTENSIONS[1]=.exe
-set EXTENSIONS[2]=.bat
+set EXTENSIONS[1]=.bat
+set EXTENSIONS[2]=.exe
 
 :: Parse the root file looking for paths
 for /f %%a in (%ROOT_FILE_PATH%) do (
