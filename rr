@@ -1,0 +1,50 @@
+#!/bin/bash
+
+# Isolate the command
+Command=$1
+if [ -z "$Command" ]; then
+    echo Root Resolve
+    echo Usage: rr \<command\> [options]
+    exit 1
+fi
+
+# Gather options by shifting them left one place
+shift
+Options="$*"
+
+# Start in the current directory and search parent folders for rr.cfg
+ConfigPath=`pwd`
+while [[ $ConfigPath != / ]];
+do
+    ConfigFilename=$ConfigPath/rr.cfg
+    if [ -f "$ConfigFilename" ]; then
+        break
+    fi
+    ConfigPath="$(readlink -f "$ConfigPath"/..)"
+done
+
+# Locate the root config file
+if ! [ -f "$ConfigFilename" ]; then
+    echo ERROR: Can\'t find \'rr.cfg\'
+    exit 1
+fi
+
+# Parse config file potential command paths
+while read -r line; do
+
+    # Swap \ with /, remove newline and append to the root path
+    line="${line//\\/\/}"
+    line=`echo $line | tr -d '\r'`
+    CommandPath=$ConfigPath/$line
+
+    # Combine tentative command path, command name and all possible extensions to locate the command
+    Extensions=" .sh .bat .exe"
+    for extension in $Extensions; do
+        CommandFilename=$CommandPath/$Command$extension
+        if [ -f "$CommandFilename" ]; then
+            $CommandFilename $Options
+            exit $?
+        fi
+    done
+
+done <$ConfigFilename
