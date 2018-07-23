@@ -1,16 +1,15 @@
 #!/bin/bash
 
-# Isolate the command
-Command=$1
-if [ -z "$Command" ]; then
+# Isolate the command name
+CommandName=$1
+if [ -z "$CommandName" ]; then
     echo Root Resolve
     echo Usage: rr \<command\> [options]
     exit 1
 fi
 
-# Gather options by shifting them left one place
+# Shift the command name out of the options list for forwarding
 shift
-Options="$*"
 
 # Start in the current directory and search parent folders for rr.cfg
 ConfigPath=`pwd`
@@ -40,9 +39,9 @@ while read -r line; do
     # Combine tentative command path, command name and all possible extensions to locate the command
     Extensions=" .sh .bat .exe"
     for extension in $Extensions; do
-        CommandFilename=$CommandPath/$Command$extension
-        if [ -f "$CommandFilename" ]; then
-            $CommandFilename $Options
+        Command=$CommandPath/$CommandName$extension
+        if [ -f "$Command" ]; then
+            $Command "$@"
             exit $?
         fi
     done
