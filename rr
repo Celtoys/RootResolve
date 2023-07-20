@@ -37,7 +37,7 @@ while read -r line; do
     CommandPath=$ConfigPath/$line
 
     # Combine tentative command path, command name and all possible extensions to locate the command
-    Extensions=" .sh .bat .exe"
+    Extensions=" .sh .bat .cmd .exe"
     for extension in $Extensions; do
         Command=$CommandPath/$CommandName$extension
         if [ -f "$Command" ]; then
