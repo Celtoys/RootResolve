@@ -3,23 +3,20 @@
 setlocal
 setlocal enabledelayedexpansion
 
-:: Isolate the command
-set COMMAND=%1
+:: We use the for-loop to tokenize the args in a way to preserve the
+:: string contents of the args. 'Standard' arg syntax will remove
+:: certain delimiter characters inside args (e.g. '=').
+for /f "tokens=1* delims= " %%A in ("%*") do (
+    set COMMAND=%%A
+    set OPTIONS=%%B
+)
+
+:: Check for missing args
 if not defined COMMAND (
     echo Root Resolve
     echo Usage: rr ^<command^> [options]
     exit /b 1
 )
-
-:: Gather options by shifting them all left one place
-set OPTIONS=%2
-shift
-:GatherOption
-    if [%2] == [] goto :NoMoreOptions
-    set OPTIONS=%OPTIONS% %2
-    shift
-    goto GatherOption
-:NoMoreOptions
 
 :: Locate the root file
 call :FindRootFilePath
