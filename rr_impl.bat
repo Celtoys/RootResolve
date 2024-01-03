@@ -11,6 +11,13 @@ for /f "tokens=1* delims= " %%A in ("%*") do (
     set OPTIONS=%%B
 )
 
+:: Check for missing args
+if not defined COMMAND (
+    echo Root Resolve
+    echo Usage: rr ^<command^> [options]
+    exit /b 1
+)
+
 :: Locate the root file
 call :FindRootFilePath
 if not defined ROOT_FILE_PATH (
