@@ -1,5 +1,7 @@
 # RootResolve
 
+**NOTE**: Since October 2023, [direnv](https://direnv.net/) has [introduced support](https://github.com/direnv/direnv/pull/1171) for Powershell!
+
 This is for repositories that store their tools side-by-side with their source code, for reasons including:
 
 * New clients are trivial to provision with no external install steps required.
