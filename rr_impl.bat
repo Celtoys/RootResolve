@@ -9,10 +9,10 @@ setlocal enabledelayedexpansion
 :: embedded spaces and delimiters such as '=' in forwarded args.
 set "COMMAND=%1"
 set "OPTIONS="
-if not "%~2"==" (
-    set "OPTIONS=%*"
-    set "OPTIONS=!OPTIONS:* =!"
-)
+if "%~2"=="" goto :NoArgs
+set "OPTIONS=%*"
+set "OPTIONS=!OPTIONS:* =!"
+:NoArgs
 
 for /f "tokens=1* delims= " %%A in ("%*") do (
     set COMMAND=%%A
