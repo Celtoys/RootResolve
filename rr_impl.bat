@@ -3,9 +3,14 @@
 setlocal
 setlocal enabledelayedexpansion
 
-:: We use the for-loop to tokenize the args in a way to preserve the
-:: string contents of the args. 'Standard' arg syntax will remove
-:: certain delimiter characters inside args (e.g. '=').
+
+set "COMMAND=%1"
+set "OPTIONS=%*"
+set "OPTIONS=%OPTIONS:* =%"
+
+:: Split the command from the remaining arguments without reparsing the command
+:: line. Using %1 for the command and slicing it from %& oreserves quoting,
+:: embedded spaces and delimiters such as '=' in forwarded args.
 for /f "tokens=1* delims= " %%A in ("%*") do (
     set COMMAND=%%A
     set OPTIONS=%%B
